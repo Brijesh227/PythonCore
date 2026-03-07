@@ -1,0 +1,4 @@
+# Conda environments
+basic_env/
+.env/
+.conda/

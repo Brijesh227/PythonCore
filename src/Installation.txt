@@ -1,0 +1,34 @@
+There are 3 ways to create python project:
+1. Using virtualenv
+    commands:
+        python3 -m venv venv
+        source venv/bin/activate
+
+    Project Structure:
+        my_project/
+         ├── venv/
+         ├── main.py
+         └── requirements.txt
+
+
+2. Using venv
+3. Using conda
+
+
+Conda activates by NAME or PATH
+-n → name → activate by name
+-p → path → activate by path
+
+// To create project environment setup
+conda create -p basic_env python==3.12
+
+// To enable above environment, change directory to /CODE/Python/Basic
+conda activate basic_env/ but "conda activate basic_env" is not working because of created with path option
+
+// To create package setup
+setup.py is used to push package to PyPI
+    -> package configuration
+    -> package manager 
+
+pyproject.toml
+    -> same as setup.py but much more efficient

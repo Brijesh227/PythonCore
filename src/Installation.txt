@@ -2,6 +2,20 @@ There are 3 ways to create python project:
 1. Using virtualenv
     commands:
         python3 -m venv venv
+        | Part                | Meaning                                                                                                                             |
+        | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+        | `python3`           | The Python **interpreter** (specifically Python version 3.x).                                                                       |
+        | `-m`                | “Run a module as a script.” So instead of running a `.py` file, we’re running a **Python module** (in this case, `venv`).           |
+        | `venv` (first one)  | The **module name** — part of Python’s standard library since Python 3.3. It creates virtual environments.                          |
+        | `venv` (second one) | The **directory name** where the new virtual environment will be created. You can name it anything (e.g., `.venv`, `env`, `myenv`). |
+
+        venv/
+         ├── bin/           # contains the python and pip executables
+         ├── lib/           # contains installed packages
+         ├── include/       # C headers (rarely needed)
+         └── pyvenv.cfg     # config file for environment
+
+        // To activate above environment
         source venv/bin/activate
 
     Project Structure:
@@ -14,16 +28,22 @@ There are 3 ways to create python project:
 2. Using venv
 3. Using conda
 
+    // stop bydefault activation of base env after installing miniconda
+    conda config --set auto_activate_base false
 
-Conda activates by NAME or PATH
--n → name → activate by name
--p → path → activate by path
+    1. active environment
+    conda activate
 
-// To create project environment setup
-conda create -p basic_env python==3.12
+    2.Create a new environment
+    conda create -n myenv python=3.12
+        -n → name → activate by name
+        -p → path → activate by path
 
-// To enable above environment, change directory to /CODE/Python/Basic
-conda activate basic_env/ but "conda activate basic_env" is not working because of created with path option
+    // To create project environment setup
+    conda create -p basic_env python==3.12
+    
+    // To enable above environment, change directory to /CODE/Python/Basic
+    conda activate basic_env/ but "conda activate basic_env" is not working because of created with path option
 
 // To create package setup
 setup.py is used to push package to PyPI

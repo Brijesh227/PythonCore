@@ -1,0 +1,108 @@
+------------------------
+venv = lightweight isolation (Backend apps, APIs)
+conda = heavy dependency management (ML / Data Science)
+poetry = modern package manager (Production apps)
+docker = production isolation
+virtualenv = legacy
+
+🧠 Real-World Recommendation
+Backend projects → venv or poetry
+Microservices → venv + Docker
+Learning ML → conda
+
+🧠 Pro Developer Setup (Clean Strategy)
+💻 For Web Projects
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+📦 For Scalable Projects
+poetry init
+poetry install
+
+🤖 For ML Projects
+conda create -n ml python=3.12
+conda activate ml
+------------------------
+
+There are multiple ways to create python environment:
+1. Built-in python(3.3+): venv
+    commands:
+        python3 -m venv .venv
+        | Part                | Meaning                                                                                                                             |
+        | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+        | `python3`           | The Python **interpreter** (specifically Python version 3.x).                                                                       |
+        | `-m`                | “Run a module as a script.” So instead of running a `.py` file, we’re running a **Python module** (in this case, `venv`).           |
+        | `venv`              | The **module name** — part of Python’s standard library since Python 3.3. It creates virtual environments.                          |
+        | `.venv`             | The **directory name** where the new virtual environment will be created. You can name it anything (e.g., `venv`, `env`, `myenv`). |
+
+        .venv/
+         ├── bin/           # contains the python and pip executables
+         ├── lib/           # contains installed packages
+         ├── include/       # C headers (rarely needed)
+         └── pyvenv.cfg     # config file for environment
+
+        // To activate above environment
+        source .venv/bin/activate
+
+    Project Structure:
+        my_project/
+         ├── .venv/
+         ├── main.py
+         └── requirements.txt
+
+    Best use case / pros:
+     - Creates a folder with:
+        isolated site-packages
+        Python binary copy/symlink
+     - No dependency solver (uses pip only)
+     - Backend apps / Microservices / Simple projects   
+
+    Cons:
+     - Cannot manage non-Python dependencies (like CUDA, system libs)
+     - Dependency conflicts handled manually
+
+2. Using conda
+
+    // stop bydefault activation of base env after installing miniconda
+    conda config --set auto_activate_base false
+
+    1. active environment
+        conda activate
+
+    2. Create a new environment
+        a. conda create -n myenv python=3.12
+            -n → name → activate by name
+            -p → path → Creates env at a specific path instead of global env list
+
+        b. To create project environment setup
+           conda create -p basic_env python==3.12
+    
+           // To enable above environment, change directory to /CODE/Python/Basic
+           conda activate basic_env/ but "conda activate basic_env" is not working because of created with path option
+
+    Best use case / pros:
+     - Designed for data science & scientific computing
+     - Handles Python + non-Python dependencies
+     - Inbuilt package manager (conda)
+     - Dependency solver (very powerful)
+     - Precompiled binaries (no build issues)
+     - Machine Learning / AI
+     - Data Science
+     - When using:
+        - TensorFlow / PyTorch
+        - NumPy with MKL
+        - CUDA / GPU
+     - Cross-language dependencies (C, Fortran libs)
+
+    Cons:
+     - Heavy so not ideal for lightweight backend apps
+     - slower than venv
+
+// To create package setup
+setup.py is used to push package to PyPI
+    -> package configuration
+    -> package manager 
+
+pyproject.toml
+    -> same as setup.py but much more efficient

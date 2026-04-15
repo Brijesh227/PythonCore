@@ -1,0 +1,30 @@
+Python Packaging
+
+------------------
+
+setup.py → legacy
+pyproject.toml → modern
+
+------------------
+
+// To create package setup
+setup.py is used to push package to PyPI
+    -> package configuration
+    -> package manager 
+
+    Used to define:
+        - package metadata
+        - dependencies
+        - entry points
+    
+    pip install .
+
+pyproject.toml
+    -> same as setup.py but much more efficient
+    
+    - Replaces setup.py
+    - Standardized (PEP 517/518)
+    - Used by tools like:
+        - poetry
+        - hatch
+        - setuptools (modern)

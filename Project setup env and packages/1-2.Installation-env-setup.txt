@@ -63,23 +63,65 @@ There are multiple ways to create python environment:
      - Dependency conflicts handled manually
 
 2. Using conda
-
     // stop bydefault activation of base env after installing miniconda
     conda config --set auto_activate_base false
 
-    1. active environment
+    1. To activate conda base environment
         conda activate
 
     2. Create a new environment
-        a. conda create -n myenv python=3.12
-            -n → name → activate by name
-            -p → path → Creates env at a specific path instead of global env list
+        a. To create environment at global level
+            conda create -n myenv python=3.12
+            -n (name)
+                → Environment stored in conda global envs directory
+                → Activate using:
+                    conda activate myenv
 
-        b. To create project environment setup
-           conda create -p basic_env python==3.12
-    
-           // To enable above environment, change directory to /CODE/Python/Basic
-           conda activate basic_env/ but "conda activate basic_env" is not working because of created with path option
+            -p (path)
+                → Environment created at specific folder instead of global env list
+                → Activate using:
+                    conda activate ./basic_env   (or full path)
+
+        b. To create project-level environment setup
+            cd /CODE/PythonCore/CondaEnv
+            conda create -p basic_env python=3.12
+                -p (path)
+                    → Creates environment at a specific folder (project-local)
+
+                Activation (inside same folder):
+                    conda activate ./basic_env   ✅ recommended
+                    conda activate basic_env/    ⚠️ may work but not preferred
+                    conda activate basic_env     ❌ can cause confusion
+
+                Why use "./" ?
+                    - Explicitly tells Conda this is a path
+                    - Avoids conflict with named environments like this:
+                        conda create -n basic_env python=3.10
+                        conda create -p ./basic_env python=3.12
+
+                        and if someone runs conda activate basic_env it confusing
+                    - More reliable across systems
+
+                Rule:
+                    Always use explicit path when using -p
+
+    basic_env/
+     ├── bin/           # python, pip, executables (Linux/Mac)
+     ├── lib/           # installed packages
+     ├── include/       # headers
+     ├── share/         # shared resources
+     ├── conda-meta/    # 🔥 VERY IMPORTANT (Conda metadata)
+
+        conda-meta/ folder(This is what makes Conda different from venv)
+            Tracks installed packages
+            Tracks versions + dependencies
+            Enables safe upgrades/removals
+
+    my_project/
+     ├── basic_env/        # path-based conda env (like .venv)
+     ├── main.py
+     ├── environment.yml   # dependency file (conda)
+     └── README.md
 
     Best use case / pros:
      - Designed for data science & scientific computing
@@ -98,11 +140,3 @@ There are multiple ways to create python environment:
     Cons:
      - Heavy so not ideal for lightweight backend apps
      - slower than venv
-
-// To create package setup
-setup.py is used to push package to PyPI
-    -> package configuration
-    -> package manager 
-
-pyproject.toml
-    -> same as setup.py but much more efficient

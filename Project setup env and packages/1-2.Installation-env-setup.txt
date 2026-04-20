@@ -124,13 +124,11 @@ There are multiple ways to create python environment:
      └── README.md
 
     Best use case / pros:
-     - Designed for data science & scientific computing
+     - Dependency solver (very powerful)
+     - Designed for data science & scientific computing, Machine Learning / AI
      - Handles Python + non-Python dependencies
      - Inbuilt package manager (conda)
-     - Dependency solver (very powerful)
      - Precompiled binaries (no build issues)
-     - Machine Learning / AI
-     - Data Science
      - When using:
         - TensorFlow / PyTorch
         - NumPy with MKL
@@ -140,3 +138,14 @@ There are multiple ways to create python environment:
     Cons:
      - Heavy so not ideal for lightweight backend apps
      - slower than venv
+
+    Deleting env
+        # named env
+        conda remove -n myenv --all
+
+        # path env
+        conda remove -p ./basic_env --all
+
+    Export environment
+        conda env export > environment.yml
+        conda env create -f environment.yml

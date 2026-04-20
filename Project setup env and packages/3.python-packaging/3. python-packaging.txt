@@ -1,11 +1,15 @@
 Python Packaging
-
 ------------------
 
 setup.py → legacy
 pyproject.toml → modern
 
+when you do pip install it will fetch package from PyPI(https://pypi.org/)
+
 ------------------
+requirements.txt
+    -> pip install -r requirements.txt
+        -r => read mode, read all package and install them
 
 // To create package setup
 setup.py is used to push package to PyPI
@@ -21,6 +25,8 @@ setup.py is used to push package to PyPI
 
 pyproject.toml
     -> same as setup.py but much more efficient
+
+    pip install -r requirements.txt
     
     - Replaces setup.py
     - Standardized (PEP 517/518)
@@ -28,3 +34,11 @@ pyproject.toml
         - poetry
         - hatch
         - setuptools (modern)
+
+    Sections:
+    - build-system
+        this section tells build tools what is required to build your package
+
+    - project
+        metadata about project
+        name = your package created with this name

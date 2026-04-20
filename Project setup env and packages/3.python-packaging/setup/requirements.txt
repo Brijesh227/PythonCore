@@ -1,4 +1,4 @@
 # All required packages need to list here
 
 numpy
-# -e .    it is for triggring setup.py to create package. simple it executes setup.py file
+# -e .    it is responsible for triggering setup.py to create package. it executes setup.py file

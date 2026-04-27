@@ -1,4 +1,0 @@
-1. Installation
-2. Importance of environments
-3. python packages (setup.py, project.toml, requirements.txt)
-4. .env files

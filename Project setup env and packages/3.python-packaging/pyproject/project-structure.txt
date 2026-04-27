@@ -1,0 +1,23 @@
+myapp/
+│
+├── src/
+│   └── my_app/
+│       ├── __init__.py
+│       ├── main.py
+│       ├── routes/
+│       ├── services/
+│       └── utils/
+│
+├── tests/
+│   └── test_main.py
+│
+├── pyproject.toml     👈 modern config (preferred)
+├── requirements.txt   👈 optional fallback
+├── README.md
+├── .gitignore
+└── .env
+
+why src/
+
+Bad:  import main  ❌
+Good: from myapp.main import app ✅

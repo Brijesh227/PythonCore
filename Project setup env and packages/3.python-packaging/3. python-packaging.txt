@@ -4,8 +4,6 @@ Python Packaging
 setup.py → legacy
 pyproject.toml → modern
 
-when you do pip install it will fetch package from PyPI(https://pypi.org/)
-
 ------------------
 requirements.txt
     -> pip install -r requirements.txt
@@ -17,9 +15,9 @@ setup.py is used to push package to PyPI
     -> package manager 
 
     Used to define:
-        - package metadata
-        - dependencies
-        - entry points
+      - package metadata
+      - dependencies
+      - entry points
     
     pip install .
 
@@ -42,3 +40,66 @@ pyproject.toml
     - project
         metadata about project
         name = your package created with this name
+
+conda (environment.yml)
+
+ - A full environment definition (not just Python)
+    name: myenv
+    dependencies:
+        - python=3.12
+        - numpy
+        - pandas
+        - pip
+        - pip:
+            - flask
+
+    conda env create -f environment.yml
+
+ - why needed?
+    pip + requirements.txt
+     - focus on Python packages only like
+        flask
+        numpy
+
+    Installs
+        From PyPI
+
+
+-----------------------------------------------
+
+Convert requirements.txt to pyproject.toml
+
+1. Current requirements.txt:
+    flask==2.3.2
+    requests>=2.31.0
+    numpy
+    pytest
+    black
+
+2. same pyproject.toml
+    [project]
+    name = "my-app"
+    version = "1.0.0"
+    description = "My backend service"
+    dependencies = [
+        "flask==2.3.2",
+        "requests>=2.31.0",
+        "numpy"
+    ]
+
+    [project.optional-dependencies]
+    dev = [
+        "pytest",
+        "black"
+    ]
+
+3. Install dependencies
+    pip install .
+    pip install .[dev]
+
+ - Use both like:
+    pyproject.toml        👈 source of truth
+    requirements.txt      👈 generated for deployment
+
+    generate like:
+    pip freeze > requirements.txt

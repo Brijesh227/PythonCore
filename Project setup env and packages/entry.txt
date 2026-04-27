@@ -1,0 +1,229 @@
+When you build a project, you have 3 separate concerns:
+
+1) Environment (isolation) => Where does Python + packages run?
+venv, conda, docker
+
+2) Dependency Management => What packages + versions does your project need?
+pip, requirements.txt, poetry, uv
+
+3) Packaging (distribution) => How do you define and publish your project as a reusable package?
+pyproject.toml, setup.py (old)
+
+
+Learning step by step:
+1. Importance of environments 
+2. Installation of dependencies
+3. Project metadata / Python packaging
+4. Distribution (PyPI)
+
+Tools mapping
+| Layer            | Purpose           | Tools                     |
+| ---------------- | ----------------- | ------------------------- |
+| Environment      | Isolation         | venv, conda               |
+| Installer        | Install packages  | pip, uv                   |
+| Dependency file  | List dependencies | requirements.txt          |
+| Project config   | Define project    | pyproject.toml            |
+| Build system     | Build package     | setuptools, poetry, hatch | (full ecosystem tool)
+| Package registry | Hosting           | PyPI                      |
+
+---------------------------------------
+
+pip (Installer)
+    - Installs packages from PyPI
+    - Works with:
+        requirements.txt
+        pyproject.toml
+    pip install fastapi
+
+    👉 Think:pip = “npm install” of Python
+
+-------------------------------------
+
+requirements.txt (Dependency list)
+    - Simple file:
+        fastapi==0.110.0
+        uvicorn==0.29.0
+    - pip install -r requirements.txt
+
+    👉 Think: “snapshot of dependencies”
+    ⚠️ Limitations:
+        - No metadata
+        - No dependency resolution intelligence
+        - Flat file
+
+------------------------------------
+
+pyproject.toml (Modern Standard ⭐)
+    - This is a standard file format (PEP 517/518/621)
+    - This is the center of modern Python packaging.
+
+    It replaces:
+        - setup.py
+        - requirements.txt (partially)
+
+    Example:
+        [project]
+        name = "myapp"
+        version = "0.1.0"
+        dependencies = [
+            "fastapi",
+            "uvicorn"
+        ]
+
+        [build-system]
+        requires = ["setuptools"]
+        build-backend = "setuptools.build_meta"
+
+    👉 Think:“package.json of Python”
+
+    What it does:
+        - Defines your project
+        - Defines dependencies
+        - Defines how to build your package
+
+    Use pyproject.toml with:
+        - setuptools (manual approach)
+        - poetry (automated approach)
+
+------------------------------------------
+
+| File               | Role                                           |
+| ------------------ | ---------------------------------------------- |
+| `pyproject.toml`   | defines your project (metadata + dependencies) |
+| `requirements.txt` | snapshot of exact installed versions           |
+
+Why both exist?
+    Example workflow:
+        pip install -e .
+        pip freeze > requirements.txt
+
+    pyproject.toml → flexible dependency ranges (fastapi >=0.100)
+    requirements.txt → exact lock (fastapi==0.110.0)
+
+    pyproject.toml is NOT a full replacement for requirements.txt in all workflows
+    pip still heavily relies on requirements.txt in:
+        CI/CD
+        Docker builds
+
+-------------------------------------------
+
+setup.py (Legacy ⚠️)
+
+Old way:
+    from setuptools import setup
+
+    setup(
+        name="myapp",
+        version="0.1",
+        install_requires=["fastapi"]
+    )
+    
+    - replaced by pyproject.toml
+
+    setuptools (LOW-LEVEL, foundational)
+        Default Python build backend
+        Used by pip
+        engine under the hood
+
+    Works with:
+        [build-system]
+        requires = ["setuptools"]
+        build-backend = "setuptools.build_meta"
+
+    Responsibilities:
+        build package (wheel, sdist)
+        install dependencies (via pip)
+        minimal project management 
+
+------------------------------------------
+
+Poetry:
+ - complete ecosystem tool
+ - Poetry is a comprehensive tool for
+    - uses pyproject.toml
+    - manages dependencies
+    - creates virtual env
+    - locks versions
+    - publishes to PyPI
+ - Avoiding the "dependency hell" often found with standard pip. 
+ - It replaces several files (like setup.py, requirements.txt, and MANIFEST.in) with a single pyproject.toml file.
+ - If I have poetry then pyproject.toml must needed
+
+    pyproject.toml = STANDARD (mandatory in modern Python)
+    setuptools     = BUILD ENGINE (low-level)
+    poetry         = ALL-IN-ONE TOOL (high-level) tool that uses the standard
+
+## Poetry Commands
+
+| Command                         | Action                                                                 |
+|---------------------------------|------------------------------------------------------------------------|
+| `poetry new my-project`         | Creates a new project structure.                                       |
+| `poetry add <package>`          | Adds a dependency to your project and installs it.                     |
+| `poetry install`                | Installs all dependencies listed in `pyproject.toml` or `poetry.lock`. |
+| `poetry update`                 | Updates dependencies to the latest versions allowed by your constraints|
+| `poetry run python app.py`      | Runs a script within the project's virtual environment.                |
+| `poetry shell`                  | Spawns a shell within the project's virtual environment.               | 
+
+----------------------------------------
+
+uv (Modern fast pip replacement ⚡)
+    - Super fast installer (written in Rust)
+    - Drop-in replacement for pip
+
+    Install: uv pip install fastapi
+
+    👉 Think:pip but 10–100x faster
+
+---------------------------------------
+
+PyPI (Registry): https://pypi.org
+
+    Where packages are published
+    Like:   
+        npm (Node)
+        Docker Hub
+
+-----------------------------------------
+
+| Competing tools | Why                   |
+| --------------- | --------------------- |
+| pip vs uv       | installer             |
+| pip vs poetry   | dependency management |
+| poetry vs hatch | project management    |
+
+
+Small Project:
+    venv + pip + requirements.txt
+
+Growing Project:
+    venv + pyproject.toml
+
+ML Project:
+    conda (+ pip)
+
+Modern Advanced:
+    uv + pyproject.toml
+
+-------------------------------------------
+
+Project Structure
+
+// Beginner
+myapp/
+├── main.py
+├── requirements.txt
+
+// production-grade structure
+myapp/
+├── pyproject.toml
+├── src/
+│   └── myapp/
+│       ├── __init__.py
+│       ├── main.py
+│       ├── api/
+│       │   └── routes.py
+│       └── core/
+│           └── config.py
+├── tests/
+├── README.md
+

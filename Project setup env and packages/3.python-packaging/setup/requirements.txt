@@ -1,4 +1,5 @@
 # All required packages need to list here
-
-numpy
+langchain==1.2.15
+fastapi==0.136.1
+numpy==1.24.3
 # -e .    it is responsible for triggering setup.py to create package. it executes setup.py file

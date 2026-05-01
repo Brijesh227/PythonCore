@@ -1,4 +1,7 @@
 [project]
+# PEP 621: Project Metadata (The standardized info - 2020 approved)
+# By using a standardized format, developers can switch between different build tools (like switching from setuptools to hatch) without rewriting their project metadata
+
 name = "myapp"
 version = "0.1.0"
 description = "FastAPI production app"
@@ -10,7 +13,10 @@ dependencies = [
     "uvicorn[standard]"
 ]
 
-[build-system]
+[build-system]     
+# introduce in PEP 518: Build System Requirements (2016 approved)
+# Tells pip: "Go get these tools first so you can build me!"
+
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 

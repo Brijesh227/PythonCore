@@ -3,7 +3,9 @@ Python Packaging
 
 setup.py → legacy
 pyproject.toml → modern
+poetry → tool that automate whole process (https://www.youtube.com/watch?v=Ji2XDxmXSOM)
 
+// github: https://github.com/ArjanCodes/examples
 ------------------
 requirements.txt
     -> pip install -r requirements.txt
@@ -27,19 +29,21 @@ pyproject.toml
     pip install -r requirements.txt
     
     - Replaces setup.py
-    - Standardized (PEP 517/518)
+    - Standardized (PEP 517/518, PEP 621)
     - Used by tools like:
         - poetry
         - hatch
-        - setuptools (modern)
+        - setuptools
 
     Sections:
     - build-system
         this section tells build tools what is required to build your package
+        introduce in PEP 518
 
     - project
         metadata about project
         name = your package created with this name
+        introduce in PEP 621
 
 conda (environment.yml)
 
@@ -103,3 +107,68 @@ Convert requirements.txt to pyproject.toml
 
     generate like:
     pip freeze > requirements.txt
+
+
+-----------------------------------------------
+
+Setup project using poetry:
+
+1. install poetry
+pipx install poetry
+    // pip -> when you want to Install libraries for project development.
+    // pipx -> Install standalone CLI tools for system-wide use. regardless of project like Black, Poetry.
+
+2. initialize your project
+for new project
+    poetry new my-project
+
+for existing project
+    cd my-folder
+    poetry init
+        - then interaction tool
+
+3. Manage dependencies
+Instead of editing the file manually, use Poetry's commands to install dependencies
+    poetry add requests
+        - This updates your pyproject.toml and creates a poetry.lock file to pin exact versions
+        - this install dependencies with ^ symbol
+        - for specific use poetry add requests@2.12.1
+
+    poetry install
+        - This creates a virtual environment and installs all listed libraries
+
+    poetry shell
+        - jump into virtual env to start a project
+
+4. Run and build
+    Run project
+    poetry run python main.py 
+
+    build project
+    poetry build
+
+5. if you want to bump project version
+    poetry version minor
+        0.2.0 -> 0.3.0
+-----------------------------------------------
+
+Migrate running project in requirements into poetry
+
+1. initialize project
+cd your-project
+poetry init
+    - interaction promts for project name and version
+
+2. add dependencies from requirements.txt
+poetry add $(cat requirements.txt)
+    - reads the file and runs poetry add for each library, which resolves versions and creates the poetry.lock file automatically.
+
+3.Handle Development Dependencies
+poetry add --group dev $(cat requirements-dev.txt)
+    - If you have a separate file for dev tools (like pytest or black), 
+    add them to a specific "group" so they aren't included in your production build.
+
+4. Verify and Cleanup
+poetry show --tree      # See your new dependency tree
+rm requirements.txt     # Safely remove the old file
+

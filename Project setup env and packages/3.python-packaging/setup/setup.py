@@ -4,7 +4,7 @@
     the configurations of your project, such as its metadata, dependecies, and more
 '''
 
-from setuptools import find_packages, setup
+from setuptools import find_packages, setup     # <--- PIP CRASHES HERE if setuptools is missing but this problem solved by pyproject.toml
 from typing import List
 
 def get_requirements()->List[str]:

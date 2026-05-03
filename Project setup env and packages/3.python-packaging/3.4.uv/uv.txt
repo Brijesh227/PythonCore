@@ -1,0 +1,14 @@
+You cam run script(single file) and project both using uv
+
+    for single file
+
+    // main.py
+    from fastapi import fastapi
+    from requests
+
+    run:
+        uv run --with 'fastapi' --with 'requests' main.py
+            then uv installs both dependencies in seprate virtual env
+
+        better run below command that add script session in same file for running smoothly everytime
+        uv add --script main.py 'fastapi' 'requests'

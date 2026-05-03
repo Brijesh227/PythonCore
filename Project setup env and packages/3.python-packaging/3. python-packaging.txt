@@ -2,8 +2,9 @@ Python Packaging
 ------------------
 
 setup.py → legacy
-pyproject.toml → modern
+pyproject.toml → modern sta file format
 poetry → tool that automate whole process (https://www.youtube.com/watch?v=Ji2XDxmXSOM)
+uv → toolkit/unified fast tooling (for speed)
 
 // github: https://github.com/ArjanCodes/examples
 ------------------
@@ -108,7 +109,6 @@ Convert requirements.txt to pyproject.toml
     generate like:
     pip freeze > requirements.txt
 
-
 -----------------------------------------------
 
 Setup project using poetry:
@@ -131,14 +131,11 @@ for existing project
 Instead of editing the file manually, use Poetry's commands to install dependencies
     poetry add requests
         - This updates your pyproject.toml and creates a poetry.lock file to pin exact versions
-        - this install dependencies with ^ symbol
-        - for specific use poetry add requests@2.12.1
+        - Poetry usually stores compatible version ranges using the ^ operator by default.
+        - for specific use - poetry add requests==2.12.1
 
     poetry install
-        - This creates a virtual environment and installs all listed libraries
-
-    poetry shell
-        - jump into virtual env to start a project
+        - Creates/uses a virtual environment and installs dependencies from pyproject.toml and poetry.lock.
 
 4. Run and build
     Run project
@@ -150,9 +147,17 @@ Instead of editing the file manually, use Poetry's commands to install dependenc
 5. if you want to bump project version
     poetry version minor
         0.2.0 -> 0.3.0
+
+6. Poetry created this files:
+    pyproject.toml
+    → Project metadata + dependency definitions
+
+    poetry.lock
+    → Exact resolved dependency versions for reproducible installs
+
 -----------------------------------------------
 
-Migrate running project in requirements into poetry
+Migrate the project from requirements.txt to poetry
 
 1. initialize project
 cd your-project
@@ -172,3 +177,92 @@ poetry add --group dev $(cat requirements-dev.txt)
 poetry show --tree      # See your new dependency tree
 rm requirements.txt     # Safely remove the old file
 
+-----------------------------------------------
+
+uv vs poetry:
+    - Using both together can create conflicts/confusion. 
+        because both tools try to manage:
+         dependencies
+         lock files
+         virtual environments
+         package workflows
+    
+    Poetry = opinionated project manager
+        Controls:
+            dependency lifecycle
+            packaging workflow
+            lock management
+
+    uv = toolkit/unified fast tooling
+        Can act as:
+            pip replacement
+            venv replacement
+            resolver
+            project manager
+            Poetry-like dependency management
+
+--------------------------------------------------
+Setup project using uv
+
+1. Initialize Project
+for New project
+    uv init my-project
+        This creates:
+         - pyproject.toml
+         - starter project structure
+
+for Existing project
+    cd my-project
+    uv init
+
+2. Manage Dependencies
+Add dependency
+    uv add requests
+    This:
+     - updates pyproject.toml
+     - creates uv.lock
+        - reproducible dependency versions
+        - consistent installs across team/CI
+     - installs dependency
+     - uv add "requests==2.32.0" for adding specific version    
+
+Add Install/sync dependencies
+    uv sync
+    This:
+     - that synchronizes a Python project's virtual environment (.venv) with its uv.lock file and pyproject.toml
+     - creates virtual environment if needed
+     - installs exact locked versions
+
+Remove dependency
+    uv remove requests
+
+3. Virtual Environment Management
+Create environment
+    uv venv
+    Usually creates:
+        .venv/
+        source .venv/bin/activate => Activate environment
+
+4. Run Project
+Run directly by running
+    uv run python main.py
+    Advantage:
+        - automatically uses project environment or create virtual env if not presented.
+
+5. Build Project
+    uv build
+     - Creates distributable package files.
+
+-----------------------------------------------------------------
+
+Migrate From requirements.txt
+
+Add dependencies from requirements.txt
+uv add -r requirements.txt
+
+Sync environment
+uv sync
+
+Important Files for uv
+    pyproject.toml
+    uv.lock

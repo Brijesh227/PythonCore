@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [build-system]     
-# introduce in PEP 518: Build System Requirements (2016 approved)
+# PEP 518: Build System Requirements (2016 approved)
 # Tells pip: "Go get these tools first so you can build me!"
 
 requires = ["setuptools"]

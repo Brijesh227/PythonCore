@@ -1,0 +1,194 @@
+-----------------------------
+Compiled language → Source code is translated into machine code before running.
+Interpreted language → Code is read and executed step-by-step by another program at runtime.
+
+But Modern Languages Are Hybrid
+
+    Modern languages mix:
+     - Compilation
+     - Interpretation
+     - Virtual machines
+     - JIT (Just-In-Time compilation)
+
+| Language   | Main Execution Style   | Runtime Layer | Machine Code Generation |
+| ---------- | ---------------------- | ------------- | ----------------------- |
+| C++        | Ahead-of-time compiled | Minimal       | Before execution        |code → CPU (Minimal abstraction.)
+| Python     | Bytecode + VM          | Heavy runtime | Rare/minimal            |code → Python VM → CPU (Maximum developer productivity.)
+| Java       | Bytecode + JVM + JIT   | JVM           | During runtime          |code → JVM → optimized native code → CPU (Portable enterprise runtime.)
+| JavaScript | Interpreted + JIT      | JS Engine     | During runtime          |code → adaptive JIT engine → optimized machine code (Dynamic runtime optimization.)
+
+language comparison: https://chatgpt.com/share/69f97284-6c38-8323-b07d-1d2455c7d802
+python inner working: https://www.youtube.com/watch?v=3HTKc-ZgZbg&list=PLu71SKxNbfoBsMugTFALhdLlZ5VOqCg2s&index=3
+------------------------------
+ - Core Mental Model
+
+    Think about computers like this:
+        Code  →  Translator  →  CPU Machine Instructions  →  Computer Runs
+
+    - The difference is mainly:
+       WHEN translation happens
+       WHAT code gets generated
+       WHO executes it
+
+1. C,C++ 
+    Compiled Languages 
+    main.cpp
+       ↓
+    Compiler (g++, clang)
+       ↓
+    Machine code (.exe / binary)
+       ↓
+    CPU runs directly
+
+    Advantages
+     - Very fast execution
+     - Optimized heavily
+     - Direct hardware control
+     - Low memory overhead
+
+    Disadvantages
+    - Compilation step needed
+    - Platform dependent
+        Windows binary ≠ Linux binary
+    - Development slower sometimes
+
+2. Python: 
+    - Interpreted Languages (Traditional Python, shell scripts)
+    - The interpreter itself is already a compiled program.
+
+    script.py
+       ↓
+    Python Interpreter
+       ↓
+    Reads line-by-line
+       ↓
+    Executes
+
+    Advantages
+     - Easy development
+     - Portable
+     - Interactive REPL
+     - Dynamic
+
+    Disadvantages
+     - Slower
+     - More runtime overhead
+     - More memory usage
+
+    Python Mental Model: 
+        - Python code runs inside a big Python application.
+        - Your code does NOT run directly on CPU.
+        - Every value is a Python object. (x = 5)
+
+        Python Code
+           ↓
+        Bytecode Compilation
+           ↓
+        Python Bytecode (.pyc)
+           ↓
+        Python Virtual Machine (PVM)
+           ↓
+        Machine Instructions
+
+    What is Bytecode in Python:
+        - low level code not machine code 
+        e.x., cpython(standard implementation) , jython(java binaries), Iron python, stack less(concurrency), PyPy(performance)
+        compiles x = 5+10 into Bytecode
+            LOAD_CONST 5
+            LOAD_CONST 10
+            ADD
+            STORE_NAME x
+        Then Python VM executes it.
+
+    PVM:
+        - run time engine
+        - also known as python interpreter
+        - continous loop running for bytecode or normal python script
+
+3. Java: Java introduced the major VM revolution.
+    - Java runs inside an operating system built specifically for Java.
+    - Java compiles to platform-independent bytecode NOT directly to machine code. Then JVM handles the rest.
+
+    Java Source (.java)
+       ↓
+    javac Compiler
+       ↓
+    Bytecode (.class)
+       ↓
+    JVM (Java Virtual Machine)
+       ↓
+    JIT Compilation
+       ↓
+    Machine Code
+
+    JVM handles:
+        - memory
+        - garbage collection
+        - threading
+        - optimization
+        - security
+
+    Why Java Is Faster Than Python
+        Because JVM uses:
+         - JIT compiler
+         - runtime optimization
+
+        what is JIT (Just-In-Time Compilation)
+
+        Initially:
+            Bytecode → interpreted
+
+        But JVM notices:
+
+            "This function runs 1 million times."
+
+        Then converts it into optimized machine code.
+        This is why Java becomes very fast after warm-up.
+
+Javascript:
+    JavaScript evolved the most dramatically.    
+     - Originally: simple interpreted scripting language
+     - Now: highly optimized JIT language
+
+    JavaScript(V8)
+
+     JavaScript Source
+         ↓
+       Parser
+         ↓
+        AST
+         ↓
+      Bytecode
+         ↓
+      Interpreter
+         ↓
+      JIT Compiler
+         ↓
+      Optimized Machine Code
+
+    - JavaScript is a highly adaptive runtime engine.
+    - Modern JS engines:
+        watch your code
+        profile behavior
+        optimize hot paths dynamically
+    - function add(a, b) {
+        return a + b;
+      } => add("a", "b")
+
+-----------------------------------------
+
+People often say:
+
+    Compiled = fast
+    Interpreted = slow
+
+Not always true.
+
+Modern JIT languages can outperform poorly optimized compiled code.
+
+Real performance depends on:
+    runtime optimizations
+    memory access
+    algorithms
+    cache locality
+    data structures

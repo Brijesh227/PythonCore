@@ -1,0 +1,14 @@
+DataType / Object Type
+
+- Number: 123, 3.14, 3 + 4j, 0b111, Decimal(), Fraction()
+- String: 'spam', "Bob's", b'a\x01c', u'sp\xc4m'
+- List: [1, [2, 'three'], 4.5], list(range(10))   # array is available but we need to "import array" and array has only single type of value
+- Tuple: (1, 'spam', 4, 'U'), tuple(spam)
+- Dictionary: {'food': 'spam', 'taste': 'yum'}, dict(hours=10)
+- Set: set('abc), {'a', 'b', 'v'}
+- Boolean: True, False
+- None: None
+- Functions, Modules, Classes
+
+- Advanced:
+    Decorators, Generator, Iterator, Context Managers, Metaprogramming

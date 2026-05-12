@@ -1,0 +1,8 @@
+"hell" + 2  => Type error
+"hello" * 2  => hellohello
+
+40 + 2.24   => 42.24 (higher precession)
+int(2.24)   => 2
+float(40)   => 40.0
+
+9 // 2      => 4 (The ‘//’ operator in Python returns the integer part of the floating number.)

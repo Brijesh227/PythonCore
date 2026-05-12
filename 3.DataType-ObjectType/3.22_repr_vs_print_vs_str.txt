@@ -1,0 +1,59 @@
+---------------
+
+| Function  | Purpose                        | Audience                |
+| --------- | ------------------------------ | ----------------------- |
+| `repr()`  | Developer/debug representation | Programmers             |
+| `str()`   | Human-friendly representation  | End users               |
+| `print()` | Display output on screen       | Uses `str()` internally |
+
+name = "Hello\nWorld"
+
+print(str(name))    => Hello
+                       World
+print(repr(name))   => "'Hello\\nWorld'"
+
+print()
+    print(obj)
+       ↓
+    str(obj)
+       ↓
+    obj.__str__()
+
+repr()
+    repr(obj)
+       ↓
+    obj.__repr__()
+
+
+Custom Class Example:
+
+class Student:
+    def __init__(self, name):
+        self.name = name
+
+s = Student("Raj")
+
+print(s)        => <__main__.Student object at 0x...>
+
+class Student:
+    def __init__(self, name):
+        self.name = name
+
+    def __str__(self):
+        return f"Student: {self.name}"
+
+s = Student("Raj")
+print(s)        => Student: Raj
+
+class Student:
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return f"Student('{self.name}')"
+
+s = Student("Raj")
+print(repr(s))      => Student('Raj')
+
+=> If __str__() is missing, Python falls back to __repr__().
+---------------

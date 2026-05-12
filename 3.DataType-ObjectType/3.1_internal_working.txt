@@ -1,0 +1,213 @@
+// python memory reference has datatype and stored all thing as object, but variable(reference) does not have any datatype
+
+score = 10
+a_score = 10
+
+# Python Memory Model - Integers / string (Immutable)
+
++-----------+                          +-----------+
+|  score    | -----------------------> |    10     | ref_count (42653637) => internal value manage by python compiler to count how many(not true every time) references used this datatype 
++-----------+                          +-----------+
+                                          ↑
++-----------+                             |
+| a_score   | -----------------------------
++-----------+
+
+how to get ref_count
+import sys
+
+sys.getrefcount(24601)
+3
+
+sys.getrefcount(3)
+4294967295              => you can not get actual close count of variable, it's just optimised value given by python compiler
+------------------------------
+
+Python Console:
+
+>>> a = 5
+>>> b = 2
+>>> a
+5
+>>> b
+2
+>>> a = a + 2
+>>> a
+7
+
++-----------+                          +------------------+
+|     a     | -----------------------> |   int object 5   |
++-----------+                          +------------------+
+                                              |
+                                              |  a = a + 2
+                                              v
+                                        +------------------+
+                                        |   int object 7   |
+                                        +------------------+
+
++-----------+                          +------------------+
+|     b     | -----------------------> |   int object 2   |
++-----------+                          +------------------+
+
+
+Explanation:
+- Variables in Python store REFERENCES to objects.
+- Integers are immutable.
+- `a = a + 2` does NOT modify integer `5`.
+- Python creates a NEW integer object `7`.
+- Variable `a` now points to `7`.
+- Object `5` remains unchanged in memory.
+      -> python garbage collector will not immediately collect(remove) 5 because same string/integer values frequently used 
+      so python compiler optimised this step to not waste computation in remove and reassign value
+
+--------------------------------------------
+
+# Python Memory Model - list (Mutable Object)
+
+>>> myListOne = [1, 2, 3]
+>>> myListTwo = myListOne
+>>> myListOne = 'chai'
+>>> myListTwo
+[1, 2, 3]
+>>> myListOne = [1, 2, 3]
+>>> myListOne[0] = 33
+>>> myListOne
+[33, 2, 3]
+>>> myListTwo
+[1, 2, 3]
+
+
+Step 1: Assignment creates shared references
+
++---------------+                     +----------------------+
+|  myListOne    | ------------------> |   [1, 2, 3]          |
++---------------+                     +----------------------+
+                                             ^
+                                             |
++---------------+                            |
+|  myListTwo    | ---------------------------+
++---------------+
+
+Python Console:
+
+>>> myListOne = [1, 2, 3]
+>>> myListTwo = myListOne
+
+Both variables point to the SAME list object.
+
+----------
+
+Step 2: Reassigning variable creates NEW reference
+
++---------------+                     +----------------------+
+|  myListOne    | ------------------> |      'chai'          |
++---------------+                     +----------------------+
+
+
++---------------+                     +----------------------+
+|  myListTwo    | ------------------> |    [1, 2, 3]         |
++---------------+                     +----------------------+
+
+Python Console:
+
+>>> myListOne = 'chai'
+>>> myListTwo
+[1, 2, 3]
+
+- myListOne now points to a NEW string object.
+- myListTwo still points to the OLD list object.
+
+---------
+
+Step 3: New list assignment
+
++---------------+                     +----------------------+
+|  myListOne    | ------------------> |    [1, 2, 3]         |
++---------------+                     +----------------------+
+
++---------------+                     +----------------------+
+|  myListTwo    | ------------------> |    [1, 2, 3]         |
++---------------+                     +----------------------+
+
+Python Console:
+
+>>> myListOne = [1, 2, 3]
+
+Now both variables point to DIFFERENT list objects
+with same values.
+
+---------
+
+Step 4: Mutating a list
+
++---------------+                     +----------------------+
+|  myListOne    | ------------------> |   [33, 2, 3]         |
++---------------+                     +----------------------+
+
++---------------+                     +----------------------+
+|  myListTwo    | ------------------> |    [1, 2, 3]         |
++---------------+                     +----------------------+
+
+Python Console:
+
+>>> myListOne[0] = 33
+
+Explanation:
+- Lists are MUTABLE in Python.
+- Changing an element modifies the SAME list object.
+- Since myListOne and myListTwo now point to DIFFERENT lists,
+  changing one does NOT affect the other.
+
+-----------------------------------------------------
+
+l1 = [1, 2, 3]
+l2 = l1                 => reference assignment
+
+l1    => [1, 2, 3]
+l2    => [1, 2, 3]
+
+l1[0] = 44
+l1    => [44, 2, 3]
+l2    => [44, 2, 3]         # same reference
+
+----
+
+p1 = [1, 2, 3]
+p2 = p1
+p1    => [1, 2, 3]
+p2    => [1, 2, 3]
+
+p2 = [1,2,3]
+p1    => [1, 2, 3]
+p2    => [1, 2, 3] 
+
+p1[0] = 55
+p1    => [55, 2, 3]
+p2    => [1,2,3]
+
+----
+
+b1 = [1, 2, 3]
+b2 = b1[0:2]      => slicing creates copy (copy assignment)
+
+b1    => [1, 2, 3]
+b2    => [1, 2]
+
+b1[0] = 4
+
+b1    => [4, 2, 3]
+b2    => [1, 2]
+
+----
+
+n1 = [1, 2, 3]
+n2 = n1
+
+n1 == n2          // True     value checks
+n1 is n2          // True     reference checks
+
+n2 = [1,2,3]
+
+n1 == n2          // True     same value
+n1 is n2          // False    not same reference
+

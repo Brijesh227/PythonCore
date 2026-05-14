@@ -33,12 +33,11 @@ class Student:
 
 s = Student("Raj")
 
-print(s)        => <__main__.Student object at 0x...>
+print(s)        => <__main__.Student object at 0x7be672031e80>
 
 class Student:
     def __init__(self, name):
         self.name = name
-
     def __str__(self):
         return f"Student: {self.name}"
 
@@ -48,7 +47,6 @@ print(s)        => Student: Raj
 class Student:
     def __init__(self, name):
         self.name = name
-
     def __repr__(self):
         return f"Student('{self.name}')"
 

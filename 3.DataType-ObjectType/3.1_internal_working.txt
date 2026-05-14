@@ -3,10 +3,10 @@
 score = 10
 a_score = 10
 
-# Python Memory Model - Integers / string (Immutable)
+# Python Memory Model - Integers / string / Tuple / frozenset (Immutable)
 
 +-----------+                          +-----------+
-|  score    | -----------------------> |    10     | ref_count (42653637) => internal value manage by python compiler to count how many(not true every time) references used this datatype 
+|  score    | -----------------------> |    10     | ref_count (42653637) => internal value manage by python compiler to count how many references(not true every time) used this datatype 
 +-----------+                          +-----------+
                                           ↑
 +-----------+                             |
@@ -60,9 +60,39 @@ Explanation:
       -> python garbage collector will not immediately collect(remove) 5 because same string/integer values frequently used 
       so python compiler optimised this step to not waste computation in remove and reassign value
 
+
+
+a = 5
+b = 5       // uses same memory reference of 5 created above(a)
+a is b      // True (Python interns small integers for efficiency. 
+               CPython keeps a cache of commonly used integers (typically from -5 to 256), so instead of creating new objects repeatedly, it reuses the same object.)
+
+c = 1000
+d = 1000
+c is d      // Sometimes this is True, sometimes False, depending on how Python created those objects.
+
+a = 5
+a = 6       // The sticky note moved; the object 5 did not change.
+
+Before reassignment:
+a ─────► [ 5 ]
+
+After reassignment:
+a ─────► [ 6 ]
+
+[ 5 ]   (may remain in memory if referenced elsewhere)
+
+// Tuple
+t = (1, 2, 3)
+t[0] = 10         // TypeError: 'tuple' object does not support item assignment
+
+t = ([1, 2], 3)
+t[0].append(4)
+print(t)          // ([1, 2, 4], 3)
+
 --------------------------------------------
 
-# Python Memory Model - list (Mutable Object)
+# Python Memory Model - list / Set / dict (Mutable Object)
 
 >>> myListOne = [1, 2, 3]
 >>> myListTwo = myListOne

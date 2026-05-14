@@ -1,0 +1,63 @@
+------------------
+Strings are immutable for reasons like:(Why Python does this)
+    - performance optimizations
+    - security (strings used as keys, interned values, etc.)
+    - safe sharing in memory
+
+-----------------------------
+
+str1 = "Hello World"
+s2 = str1[0:5]
+print(s2)       => Hello
+print(str1)     => Hello Wolrd
+
+str1[:]         => whole string
+str1[3:]        => character after 3rd position
+str1[:6]        => start to index 5
+str1[0:6:2]     => Hlo      (jump by 2)
+
+str2 = "ram ji"
+str3 = str2.replace("ji", "sita")
+
+// string to list
+str4 = "hello, hi, how, yeah"
+print(str4.split())     => ['hello,', 'hi,', 'how,', 'yeah']    default split by space
+print(str4.split(", ")) => ['hello', 'hi', 'how', 'yeah']
+
+print(str4.find("hi"))  => 7
+print(str4.find("Hello"))   => -1
+
+str5 = "Hello hi hi hi"
+print(str5.count("hi"))     => 3
+
+w1 = "world"
+w2 = 2
+
+str6 = "hello {}, order {} pizza"
+print(str6.format(w1,w2))       => hello world, order 2 pizza
+
+// list to string
+l1 = ['hello', 'hi', 'how', 'yeah']
+join_str=l1.join()      => wrong  (AttributeError: 'list' object has no attribute 'join')
+join2 = "".join(l1)     => hellohihowyeah
+join3 = " ".join(l1)    => hello hi how yeah
+
+str7 = "He said\"you are right!\""
+print(str7)     => He said you are right!
+
+but in most case use r(raw string)
+    - Windows file paths
+    - Regular expressions
+
+""" ... """ → triple-quoted string
+
+str7 = r"He said"you are right!""
+print(str7)     => He said"you are right!"
+
+str8=r"c:\user\pwd"
+print(str8)
+
+// string containing
+
+str9 = "hello world how are you!"
+print("world" in str9)      => True

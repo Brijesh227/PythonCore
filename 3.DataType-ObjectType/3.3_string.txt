@@ -6,6 +6,14 @@ Strings are immutable for reasons like:(Why Python does this)
 
 -----------------------------
 
+s = "hello"
+s += " hi"
+
+print(s)    // hello hi
+
+s[1] = "o"  // error
+
+
 str1 = "Hello World"
 s2 = str1[0:5]
 print(s2)       => Hello

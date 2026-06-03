@@ -11,8 +11,19 @@ s += " hi"
 
 print(s)    // hello hi
 
+// Strings are immutable, meaning their values cannot be changed after creation. 
+Any modification to a string creates a new string instead of altering the original one.
+
 s[1] = "o"  // error
 
+but
+
+s = "aBCDEF"
+s = "A" + s[1:]  
+print(s)        // ABCDEF (new string not original one)
+
+city = "mumba"
+city.append("i")    // AttributeError: 'str' object has no attribute 'append'
 
 str1 = "Hello World"
 s2 = str1[0:5]
@@ -46,24 +57,25 @@ print(str6.format(w1,w2))       => hello world, order 2 pizza
 
 // list to string
 l1 = ['hello', 'hi', 'how', 'yeah']
-join_str=l1.join()      => wrong  (AttributeError: 'list' object has no attribute 'join')
+join_str = l1.join()    => wrong  (AttributeError: 'list' object has no attribute 'join')
 join2 = "".join(l1)     => hellohihowyeah
 join3 = " ".join(l1)    => hello hi how yeah
 
-str7 = "He said\"you are right!\""
-print(str7)     => He said you are right!
+str77 = "He said: \"you are right!\""
+print(str77)             => He said: "you are right!"
+
+str8="c:\\user\\pwd"    => not so readable
+print(str8)
 
 but in most case use r(raw string)
+    - treats backslashes (\) as literal characters instead of escape characters.
     - Windows file paths
     - Regular expressions
 
 """ ... """ → triple-quoted string
 
-str7 = r"He said"you are right!""
+str7 = """ He said"you are right!" """
 print(str7)     => He said"you are right!"
-
-str8=r"c:\user\pwd"
-print(str8)
 
 // string containing
 

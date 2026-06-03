@@ -1,11 +1,17 @@
 # polymorphism: 
 #       same name different behaviour
-#       Overriding: Child class provides its own version of that method(below code)
-#       Overloading: same function name, different parameter count/types
+#       Overriding(compile time): Child class provides its own version of that method(below code)
+#       Overloading (Run time): same function name, different parameter count/types
 
 # Python does NOT support true method overloading directly. If you define same function again, old one gets replaced.
-# + operator will convert into __add__() so we int and str method implement it's own method (https://chatgpt.com/share/6a167be7-bff0-8324-95d7-855b0666cdff)
-# java and c++ supports Overloading
+
+# Languages like Java or C++ support this. But Python doesn’t because it’s dynamically typed 
+#   it resolves method calls at runtime, not during compilation. So, true method overloading isn’t supported, 
+#   though similar behavior can be achieved using default or variable arguments.
+
+# + operator will convert into __add__() so int and str method implement it's own method (https://chatgpt.com/share/6a167be7-bff0-8324-95d7-855b0666cdff)
+# Python’s built-in functions like len() and max() are polymorphic they work with different data types and return results based on type of object passed. 
+#   This showcases it's dynamic nature, where same function name adapts its behavior depending on input.
 
 
 class Car:

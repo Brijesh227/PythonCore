@@ -56,13 +56,21 @@ python inner working: https://www.youtube.com/watch?v=3HTKc-ZgZbg&list=PLu71SKxN
     - Interpreted Languages (Traditional Python, shell scripts)
     - The interpreter itself is already a compiled program.
 
-    script.py
+    .py file
        ↓
-    Python Interpreter
+    Parser
        ↓
-    Reads line-by-line
+    AST
        ↓
-    Executes
+    Compiler
+       ↓
+    Bytecode (.pyc)
+       ↓
+    PVM evaluation loop (continous loop)
+       ↓
+    Machine instructions
+       ↓
+    CPU
 
     Advantages
      - Easy development
@@ -82,7 +90,7 @@ python inner working: https://www.youtube.com/watch?v=3HTKc-ZgZbg&list=PLu71SKxN
 
         Python Code
            ↓
-        Bytecode Compilation
+        Bytecode Compilation (cpython compiler)
            ↓
         Python Bytecode (.pyc)
            ↓
@@ -91,8 +99,28 @@ python inner working: https://www.youtube.com/watch?v=3HTKc-ZgZbg&list=PLu71SKxN
         Machine Instructions
 
     What is Bytecode in Python:
-        - low level code not machine code 
-        e.x., cpython(standard implementation) , jython(java binaries), Iron python, stack less(concurrency), PyPy(performance)
+        - low level code not machine code
+        - Bytecode Compiler: e.x., cpython compiler(standard implementation), jython(java binaries), Iron python, stack less(concurrency), PyPy(performance)
+        - When CPython starts running a .py file, first, it performs a compilation step:
+            x = 5
+            print(x)
+
+         gets transformed into an internal representation and then into Python bytecode.
+            import dis
+
+            def f():
+                x = 5
+                print(x)
+
+            dis.dis(f)
+
+            LOAD_CONST 5
+            STORE_FAST x
+            LOAD_GLOBAL print
+            LOAD_FAST x
+            CALL
+            RETURN_VALUE
+
         compiles x = 5+10 into Bytecode
             LOAD_CONST 5
             LOAD_CONST 10

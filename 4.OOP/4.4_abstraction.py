@@ -75,7 +75,6 @@ class Stripe(PaymentGateway):
 #     ...
 
 # Means:
-
 # Every subclass MUST provide this method.
 
 # 2. Shared implementation (optional)

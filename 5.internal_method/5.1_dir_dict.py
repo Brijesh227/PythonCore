@@ -13,3 +13,13 @@ print(dir(my_car))
 # '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', 
 # '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 
 # '__weakref__', 'brand', 'model']
+
+
+# __dict__
+
+class Employee:
+    def __init__(self, name, age):
+        self.name = name
+        self._age = age
+
+print(emp.__dict__)     # {'name': 'Ross', '_age': 30}

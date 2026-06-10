@@ -43,8 +43,45 @@ print(my_car.get_car())         # tata
 
 # class level private variable
 # access pattern: ClassName._Class__var
-
 class User:
     __company = "OpenAI"   # class-level private variable
 
-print(User._User__company)    # if we remove _User then we can't access it, AttributeError: type object 'User' has no attribute '__company'
+print(User._User__company)      # OpenAI 
+print(User.__company)           # AttributeError: type object 'User' has no attribute '__company'
+
+
+# public
+#    - by default all public
+
+class Employee:
+    def __init__(self, name):
+        self.name = name   # public attribute
+
+    def display_name(self):   # public method
+        print(self.name)
+
+emp = Employee("John")
+emp.display_name()   # Accessible
+print(emp.name)      # Accessible 
+
+# protected
+#       - Protected members are variables or methods that are intended to be accessed only within the class, it's object and its subclasses
+
+class Employee:
+    def __init__(self, name, age):
+        self.name = name       # public
+        self._age = age        # protected
+
+class SubEmployee(Employee):
+    def show_age(self):
+        print("Age:", self._age)   # Accessible in subclass
+        
+e = Employee('john', 20)
+emp = SubEmployee("Ross", 30)
+print(e.name)           # john
+print(e._age)           # 20
+print(e.__dict__)       # {'name': 'john', '_age': 20}
+print(emp.name)         # Ross
+print(emp._age)         # 30
+print(emp.__dict__)     # {'name': 'Ross', '_age': 30}
+emp.show_age()          # Age: 30 

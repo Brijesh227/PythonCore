@@ -1,6 +1,3 @@
-# [expression for item in iterable if condition]
-
-
 # even number
 l1 = [1,2,3,4]
 

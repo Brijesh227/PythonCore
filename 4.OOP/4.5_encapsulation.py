@@ -1,4 +1,5 @@
 # Python does not have true private variables like Java or C++. it's doing name mangling
+# it follows naming conventions and uses a technique called name mangling to support encapsulation.
 # https://chatgpt.com/share/6a17d38a-8ef8-8322-af9d-021eac08ab46
 
 class User:
@@ -19,10 +20,11 @@ u = User("A")
 # it's just stored with _User__name that's why it can't directly accessible but with u._User__name you can access it.
 print(u._User__name)    # A
 
-# ------------------
+# -------------------------------------------------------
 
-# Encapculate brand variable, make it private(__varname)
-# private => access within class but object can't access it.
+# private 
+#       => Private members are variables or methods that cannot be accessed directly from outside the class. 
+#       => access within class but object can't access it.
 
 # Object level private variable
 class Car:
@@ -50,6 +52,29 @@ print(User._User__company)      # OpenAI
 print(User.__company)           # AttributeError: type object 'User' has no attribute '__company'
 
 
+# you can access protected and private member by it's public method(getter) and modify that using setter method
+
+class Employee:
+    def __init__(self):
+        self.__salary = 50000  # Private attribute
+
+    def get_salary(self):    # Getter method
+        return self.__salary
+
+    def set_salary(self, amount):   # Setter method
+        if amount > 0:
+            self.__salary = amount
+        else:
+            print("Invalid salary amount!")
+
+emp = Employee()
+print(emp.get_salary())  # Access salary using getter
+
+emp.set_salary(60000)   # Update salary using setter
+print(emp.get_salary())
+
+# -------------------------------------------------------
+
 # public
 #    - by default all public
 
@@ -63,6 +88,8 @@ class Employee:
 emp = Employee("John")
 emp.display_name()   # Accessible
 print(emp.name)      # Accessible 
+
+# -------------------------------------------------------
 
 # protected
 #       - Protected members are variables or methods that are intended to be accessed only within the class, it's object and its subclasses

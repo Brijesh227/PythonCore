@@ -1,4 +1,5 @@
 # classmethod:
+#     Class methods and static methods are special types of methods in Python that are bound to a class rather than its instances
 #     A class method is a method that receives the class itself as the first argument, conventionally named cls. 
 #     It can access and modify class-level data and is often used to define factory methods. 
 #     A factory method is a method that creates and returns an object of the class. 

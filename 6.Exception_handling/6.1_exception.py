@@ -27,11 +27,24 @@ finally:
     print("Execution complete.")
 
 # BaseException => root of Python's exception hierarchy. All other exceptions directly or indirectly inherit from it.
-
 # Exception     => Exception class is the base for all non-exit exceptions. 
+#                   Handle application error not system error see below heirarchy
+
+# BaseException
+# ├── SystemExit
+# ├── KeyboardInterrupt
+# ├── GeneratorExit
+# └── Exception
+#     ├── ArithmeticError
+#     │   ├── ZeroDivisionError
+#     │   ├── OverflowError
+#     │   └── FloatingPointError
+#     │
+#     └── TypeError
+
 try:
     raise Exception("This is a generic exception")
-except Exception as e:
+except Exception as e:      # don't use BaseException else some cases like ctrl+c(KeyboardInterrupt) is handled and program keep on running.
     print(e)
 
 # AttributeError    => AttributeError occurs when you try to access or assign an attribute that does not exist for an object.

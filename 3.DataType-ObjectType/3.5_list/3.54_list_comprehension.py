@@ -1,4 +1,5 @@
-# list comprehension: 
+# List comprehension: 
+#   List comprehension is a way to create lists using a concise syntax. 
 #   new_list = [expression for item in iterable if condition]
 
 

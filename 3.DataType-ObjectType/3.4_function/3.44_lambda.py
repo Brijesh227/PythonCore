@@ -1,3 +1,6 @@
+# lambda: A lambda function is an anonymous function. This function can have any number of parameters but, 
+#           can have just one statement.
+
 # a = lambda x: x + 1
     # a = function name
     # x = Argument

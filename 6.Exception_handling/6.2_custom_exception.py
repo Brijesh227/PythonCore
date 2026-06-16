@@ -28,6 +28,6 @@ class MyError(Exception):
     pass
 
 try:
-    raise MyError("Custom Error")
+    raise MyError("Custom Error")       # message pass to Exception class
 except MyError as e:
     print(e)

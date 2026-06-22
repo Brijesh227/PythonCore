@@ -1,3 +1,4 @@
 compile vs interpreter language comparison: https://chatgpt.com/share/69f97284-6c38-8323-b07d-1d2455c7d802
 python inner working: https://www.youtube.com/watch?v=3HTKc-ZgZbg&list=PLu71SKxNbfoBsMugTFALhdLlZ5VOqCg2s&index=3
 python chai aur code:https://www.youtube.com/watch?v=Ca5DLSDfPec&list=PLu71SKxNbfoBsMugTFALhdLlZ5VOqCg2s
+python code visualiser: https://pythontutor.com/visualize.html#mode=edit

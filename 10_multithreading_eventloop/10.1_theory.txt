@@ -1,0 +1,202 @@
+Final Mental Model
+==================
+
+1. Process = Apartment
+----------------------
+- Each process has:
+  - Own memory
+  - Own resources
+  - Own GIL
+
+Example:
+- `python app.py` creates one process
+
+2. Thread = Person inside Apartment
+-----------------------------------
+- Multiple threads can exist inside a single process:
+  - Thread A
+  - Thread B
+  - Thread C
+
+Threads share:
+- Heap
+- Global variables
+- Objects
+
+Each thread has its own:
+- Stack
+- Function calls
+- Local variables
+
+Visual:
+
+Process
+│
+├── Shared Heap
+│
+├── Thread A -> Stack A
+├── Thread B -> Stack B
+└── Thread C -> Stack C
+
+3. Why GIL Exists
+------------------
+CPython uses reference counting for memory management.
+
+Without protection:
+- Thread A modifies an object
+- Thread B modifies the same object
+- Result: memory corruption
+
+Solution: Global Interpreter Lock (GIL)
+- Rule: only one thread executes Python bytecode at a time
+
+4. CPU-bound vs I/O-bound
+--------------------------
+CPU-bound example:
+
+    for i in range(100000000):
+        ...
+
+- Needs the CPU constantly
+- Threads compete for the GIL
+- No real speedup with threading
+- Use multiprocessing instead
+
+I/O-bound example:
+
+    requests.get(url)
+
+- Most time is spent waiting for:
+  - Network
+  - Database
+  - Disk
+- While waiting, a thread releases the GIL
+- Other threads can run
+- Threads work well for I/O-bound workloads
+
+5. Why Multiprocessing Exists
+------------------------------
+- Needed for true parallelism
+- Separate processes can run on separate CPU cores:
+  - Process A -> Core 1
+  - Process B -> Core 2
+  - Process C -> Core 3
+
+Each process gets:
+- Own memory
+- Own GIL
+
+Result:
+- True parallel execution
+
+6. Limitations of threading
+-----------------------------
+Suppose you need to make 10,000 API calls.
+
+Threading approach:
+- 10,000 threads
+
+Problems:
+- High memory consumption
+- Excessive context switching
+- OS scheduling overhead
+
+Most threads end up:
+- Doing nothing
+- Simply waiting
+
+7. Why asyncio was invented
+----------------------------
+Key observation:
+- Waiting tasks do not need a dedicated thread
+
+Instead:
+- 1 thread
+- 1 event loop
+- Many tasks
+
+Benefits:
+- Lightweight concurrency
+- Fewer threads
+- Better scaling for I/O-bound code
+
+8. Event loop
+--------------
+Think of the event loop as a smart scheduler.
+
+Pseudo-code:
+
+    while True:
+        run_ready_task()
+        check_completed_io()
+        resume_waiting_tasks()
+
+Example:
+
+    async def task():
+        await database()
+
+Execution flow:
+- Run task
+- `await database()`
+- Pause task
+- Run another task
+- Database completes
+- Resume task
+
+Result:
+- CPU is not idle while tasks wait
+
+Concurrency evolution
+---------------------
+Single program
+    │
+    ▼
+  Process
+    │
+    ▼
+ Need multiple execution flows
+    │
+    ▼
+  Threads
+    │
+    ▼
+ Shared memory causes complexity
+    │
+    ▼
+   GIL
+    │
+    ├─────────────► CPU-bound?
+    │                    │
+    │                    ▼
+    │               Multiprocessing
+    │
+    ▼
+ I/O-bound work
+    │
+    ▼
+ Threading works
+    │
+    ▼
+ Thousands of waiting threads become expensive
+    │
+    ▼
+ Need lightweight tasks
+    │
+    ▼
+ Coroutines
+    │
+    ▼
+ Event loop
+    │
+    ▼
+ Asyncio
+
+One-line memory formula
+------------------------
+- Process = isolation
+- Thread = shared memory concurrency
+- GIL = protects CPython objects
+- Multiprocessing = true parallel CPU work
+- Asyncio = efficient I/O concurrency without thousands of threads
+- Event loop = scheduler that pauses waiting tasks and runs ready tasks

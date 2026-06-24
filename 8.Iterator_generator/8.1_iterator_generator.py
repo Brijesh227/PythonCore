@@ -11,6 +11,7 @@
 #   It follows the iterator protocol, which involves two key methods:
 #        __iter__(): Returns the iterator object itself.
 #        __next__(): Returns the next value from the sequence. Raises StopIteration when the sequence ends.
+#   Iterator <-- used by --> for loop
 
 #   Need For Iterators
 #    Lazy Evaluation: Processes items only when needed, saving memory.(load one element at a time)
@@ -87,3 +88,7 @@ def get_even_number(num):
 
 for i in get_even_number(10):
     print(i)
+
+
+# generator in sigle line:
+nums = (x*x for x in range(1000000))

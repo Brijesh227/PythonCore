@@ -1,0 +1,67 @@
+# Why Asyncio if we have multithreads? (asyncio ≠ multithreading)
+
+# Problem 1: Traditonal thread: (While one thread waits: OS switches to another thread)
+#   Thread 1 → API call
+#   Thread 2 → DB query
+#   Thread 3 → File read
+
+# above is good but creating threads costs memory.
+# 10000 requests => 10000 threads
+
+# Problem 2: OS Context Switching
+
+# Save Thread A state
+# Load Thread B state
+
+# Save Thread B state
+# Load Thread C state
+
+# Problem 3:
+
+# Python GIL: Even if 10 threads exist,Only one thread executes Python bytecode at a time.
+#     For I/O this is acceptable.
+#     For CPU work it's terrible.
+
+# Solution:
+# Instead of 10000 Threads use:
+# 1 Thread
+# 1 Event Loop
+# 10000 Tasks
+
+
+async def fetch():
+    await api_call()
+
+async def save():
+    await db_query()
+
+asyncio.gather(
+    fetch(),
+    save()
+)
+
+# Event Loop
+#      │
+#      ▼
+# Start fetch()
+#      │
+# await api_call()
+#      │
+# Paused
+
+# Start save()
+#      │
+# await db_query()
+#      │
+# Paused
+
+import asyncio
+
+async def demo():
+    x = 10
+    await asyncio.sleep(1)
+    print(x)
+
+c = demo()
+
+print(type(c))      <class 'coroutine'>

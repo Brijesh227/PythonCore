@@ -32,7 +32,7 @@ Visual:
 
 Process
 │
-├── Shared Heap
+├── Shared Heap(piece of memory)
 │
 ├── Thread A -> Stack A
 ├── Thread B -> Stack B
@@ -41,6 +41,10 @@ Process
 3. Why GIL Exists
 ------------------
 CPython uses reference counting for memory management.
+
+obj
+├── value
+└── refcount   (manage by GIL)
 
 Without protection:
 - Thread A modifies an object

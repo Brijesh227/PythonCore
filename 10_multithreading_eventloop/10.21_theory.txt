@@ -1,0 +1,58 @@
+###############################
+
+Generators taught Python how to pause functions.
+
+Coroutines taught Python how to resume paused functions.
+
+Asyncio built an Event Loop around coroutines so thousands of I/O tasks can share one thread efficiently.
+
+###############################
+
+
+
+Multiprocessing
+--------------
+Goal:
+Use multiple CPU cores
+
+Best For:
+CPU intensive work
+
+Examples:
+Image processing
+ML training
+Compression
+
+
+Threading
+---------
+Goal:
+Handle waiting tasks using OS threads
+
+Best For:
+Moderate I/O workloads
+
+Examples:
+File operations
+Network requests
+
+
+Asyncio
+-------
+Goal:
+Handle huge numbers of waiting operations
+without creating many threads
+
+Best For:
+Massive I/O workloads
+
+Examples:
+Web servers
+Chat servers
+API gateways
+Web scraping
+
+Key Idea:
+When a task waits,
+it voluntarily gives control
+back to the Event Loop.

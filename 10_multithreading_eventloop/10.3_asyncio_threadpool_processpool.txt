@@ -1,5 +1,0 @@
-| Tool                    | Best for         | Threads            | Parallel?                            | Why use it?                                                                |
-| ----------------------- | ---------------- | ------------------ | ------------------------------------ | -------------------------------------------------------------------------- |
-| **asyncio**             | Non-blocking I/O | 1                  | No                                   | Efficiently manages thousands of waiting operations without extra threads. |
-| **ThreadPoolExecutor**  | Blocking I/O     | Many               | Not for Python CPU code (due to GIL) | Lets blocking functions run without freezing your main thread.             |
-| **ProcessPoolExecutor** | CPU-bound work   | Separate processes | **Yes**                              | Bypasses the GIL for true multi-core execution.                            |

@@ -13,50 +13,73 @@ Asyncio built an Event Loop around coroutines so thousands of I/O tasks can shar
 Multiprocessing
 --------------
 Goal:
-Use multiple CPU cores
+    Use multiple CPU cores
 
 Best For:
-CPU intensive work
+    CPU intensive work
 
 Examples:
-Image processing
-ML training
-Compression
+    Image processing
+    ML training
+    Compression
 
 
 Threading
 ---------
 Goal:
-Handle waiting tasks using OS threads
+    Handle waiting tasks using OS threads
 
 Best For:
-Moderate I/O workloads
+    Moderate I/O workloads
 
 Examples:
-File operations
-Network requests
+    File operations
+    Network requests
 
 
 Asyncio
 -------
 Goal:
-Handle huge numbers of waiting operations
-without creating many threads
+    Handle huge numbers of waiting operations
+    without creating many threads
 
-Best For:
-Massive I/O workloads
+Best For: Massive I/O workloads
 
 Examples:
-Web servers
-Chat servers
-API gateways
-Web scraping
+    Web servers
+    Chat servers
+    API gateways
+    Web scraping
 
 Key Idea:
-When a task waits,
-it voluntarily gives control
-back to the Event Loop.
+    When a task waits,
+    it voluntarily gives control
+    back to the Event Loop.
 
+asyncio = Concurrent programming why?
+    asyncio starts a non-blocking operation. The OS waits for completion while the event loop continues executing other coroutines in the same thread.
+
+    At Python level
+        Only one thread executes Python bytecode.
+            Coroutine A
+
+            ↓
+
+            Coroutine B
+
+            ↓
+
+            Coroutine C
+
+    But
+
+        The network card
+        The kernel
+        Disk
+        Database server
+        Remote server
+
+    ALL are working simultaneously. (Those things truly run in parallel.)
 # --------------------------
 
 # Why Asyncio if we have multithreads? (asyncio ≠ multithreading)

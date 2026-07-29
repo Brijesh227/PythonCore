@@ -73,7 +73,7 @@ async def main():
 
 asyncio.run(main())
 
-# Error handling in Asynio task:
+# Error handling in Asyncio task:
 # biggest problem: 
 #   If one task fails, gather immediately raises that exception to the main thread. 
 #   The other tasks keep running in the background, but you lose immediate access to other task results.

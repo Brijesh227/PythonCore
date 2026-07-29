@@ -1,0 +1,95 @@
+Threadpoolexecutor like spinup 4 thread
+
+
+Suppose
+
+max_workers=4
+Thread1
+
+Thread2
+
+Thread3
+
+Thread4
+
+
+ALL ARE WORKING IN PARALLEL:
+
+    - If they're performing I/O-bound work (waiting on files, sockets, databases), 
+    they can all make progress concurrently, and multiple OS threads may be scheduled at the same time.
+
+    - If they're performing CPU-bound Python code, the Global Interpreter Lock means only one thread executes Python bytecode at a time 
+      within a single process. The OS may schedule the threads on different CPU cores, but the GIL prevents true parallel execution of Python bytecode.
+
+
+import threading
+
+def worker():
+    # CPU-intensive work
+    for i in range(10_000_000):
+        pass
+
+t1 = threading.Thread(target=worker)
+t2 = threading.Thread(target=worker)
+
+t1.start()
+t2.start()
+
+t1.join()
+t2.join()
+
+Suppose:
+
+    Main thread is running on CPU Core 0.
+    t1 is scheduled on Core 1.
+    t2 is scheduled on Core 2.
+
+The OS can schedule them on different cores.
+
+However, because of the Global Interpreter Lock (GIL):
+
+    Only one thread at a time is allowed to execute Python bytecode.
+    The other threads wait until the GIL is released.
+
+So the execution looks like:
+
+Time ---->
+
+Core 0 : Main thread  ====== waiting ======
+Core 1 : t1  [Running Python]
+Core 2 : t2  [Blocked on GIL]
+
+Then...
+
+Core 1 : t1  [Waiting]
+Core 2 : t2  [Running Python]
+
+The threads may move between CPU cores as the operating system schedules them, but at any instant only one thread is executing Python bytecode in that process.
+
+The main thread does not continue executing while the worker threads run CPU-bound Python code. All Python threads compete for the same GIL.
+
+Think of the GIL as one key for the whole process:
+
+Python Process
+──────────────────────────
+Main Thread  ──┐
+               │
+Worker 1    ───├── Need the same GIL
+               │
+Worker 2    ───┘
+
+Only one thread can hold the key at a time.
+
+So if the main thread wants to execute Python code while worker1 is running, it must also wait until it acquires the GIL.
+
+When do multiple CPU cores actually get used?
+    True parallel CPU execution happens when you use:
+
+        The multiprocessing module (each process has its own GIL).
+        Native extensions (such as NumPy) that temporarily release the GIL while doing heavy work in C/C++.
+        Alternative Python implementations that don't have the traditional GIL (or newer experimental free-threaded builds).
+
+    So:
+
+        Threads + CPU-bound Python code → one CPU core effectively executes Python bytecode at a time.
+        Processes + CPU-bound Python code → multiple CPU cores can execute Python code truly in parallel.
